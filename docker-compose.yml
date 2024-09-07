@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  clickhouse:
+    image: yandex/clickhouse-server:latest
+    container_name: clickhouse
+    ports:
+      - "8123:8123"
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+    restart: always
+ 
+
+volumes:
+  clickhouse_data:
+    driver: local
