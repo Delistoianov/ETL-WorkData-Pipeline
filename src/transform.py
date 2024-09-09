@@ -1,14 +1,14 @@
 import pandas as pd
 
+# Normaliza os nomes das colunas removendo espaços e convertendo para minúsculas, e remove duplicatas
 def normalize_data(df):
-    # Normaliza os nomes das colunas removendo espaços e convertendo para minúsculas, e remove duplicatas
     df.columns = [col.strip().lower() for col in df.columns] 
     df.drop_duplicates(inplace=True)  
     print(f"Colunas normalizadas: {df.columns}")
     return df
 
+# Preenche valores nulos: strings com 'missing' e numéricos com a média da coluna
 def handle_missing_values(df):
-    # Preenche valores nulos: strings com 'missing' e numéricos com a média da coluna
     try:
         for col in df.columns:
             if df[col].dtype == 'object':
@@ -22,8 +22,8 @@ def handle_missing_values(df):
         print(f"Erro na função handle_missing_values: {e}")
     return df
 
+# Converte colunas de data para datetime e colunas numéricas para tipo numérico
 def convert_data_types(df):
-    # Converte colunas de data para datetime e colunas numéricas para tipo numérico
     for col in df.columns:
         if df[col].dtype == 'object':
             if 'date' in col or 'data' in col:
@@ -33,24 +33,24 @@ def convert_data_types(df):
     print("Tipos de dados convertidos")
     return df
 
+# Preenche valores nulos em colunas datetime com uma data padrão
 def preprocess_datetime_columns(df):
-    # Preenche valores nulos em colunas datetime com uma data padrão
     datetime_cols = df.select_dtypes(include=['datetime64']).columns
     for col in datetime_cols:
         df[col].fillna(pd.Timestamp('1970-01-01'), inplace=True)  
     print("Colunas datetime processadas")
     return df
 
+# Ajusta valores em colunas inteiras para estarem dentro do intervalo 0 a 4294967295
 def preprocess_int_columns(df):
-    # Ajusta valores em colunas inteiras para estarem dentro do intervalo 0 a 4294967295
     int_cols = df.select_dtypes(include=['int64']).columns
     for col in int_cols:
         df[col] = df[col].apply(lambda x: x if 0 <= x <= 4294967295 else 0)
     print("Colunas inteiras processadas")
     return df
 
+# Remove outliers em colunas numéricas baseando-se em 3 desvios padrão da média
 def remove_outliers(df):
-    # Remove outliers em colunas numéricas baseando-se em 3 desvios padrão da média
     numeric_cols = df.select_dtypes(include=['float64', 'int64']).columns
     for col in numeric_cols:
         mean = df[col].mean()
@@ -61,16 +61,16 @@ def remove_outliers(df):
     print("Outliers removidos")
     return df
 
+# Normaliza strings removendo espaços e convertendo para minúsculas
 def normalize_strings(df):
-    # Normaliza strings removendo espaços e convertendo para minúsculas
     string_cols = df.select_dtypes(include=['object']).columns
     for col in string_cols:
         df[col] = df[col].str.strip().str.lower()
     print("Strings normalizadas")
     return df
 
+# Aplica uma série de transformações no DataFrame
 def transform_data(df):
-    # Aplica uma série de transformações no DataFrame
     df = normalize_data(df)       
     df = handle_missing_values(df)      
     df = convert_data_types(df)         

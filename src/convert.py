@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 
+# Função para converter arquivos CSV para Parquet
 def csv_to_parquet(csv_path: str, parquet_path: str):
     table_names = []  
     

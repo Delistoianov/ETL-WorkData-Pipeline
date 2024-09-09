@@ -3,6 +3,7 @@ from src.transform import transform_data
 from src.load import connect_to_clickhouse, load_data_to_clickhouse
 from src.convert import csv_to_parquet 
 
+# Função principal para executar o ETL
 def run_etl():
     tmp_dir = 'tmp/'
 

@@ -1,16 +1,15 @@
 import os
 import pandas as pd
 from dotenv import load_dotenv
-import clickhouse_connect  # Importa diretamente o módulo correto
+import clickhouse_connect  
 
-# Carregar as variáveis do .env
 load_dotenv()
 
 # Obter as variáveis de ambiente do arquivo .env
-CLICKHOUSE_HOST = os.getenv('CLICKHOUSE_HOST').replace('http://', '')  # Remover o protocolo
+CLICKHOUSE_HOST = os.getenv('CLICKHOUSE_HOST').replace('http://', '')  
 if ':' in CLICKHOUSE_HOST:
-    CLICKHOUSE_HOST = CLICKHOUSE_HOST.split(':')[0]  # Manter apenas o host sem a porta
-CLICKHOUSE_PORT = int(os.getenv('CLICKHOUSE_PORT', 8123))  # Define o valor padrão da porta como 8123
+    CLICKHOUSE_HOST = CLICKHOUSE_HOST.split(':')[0]  
+CLICKHOUSE_PORT = int(os.getenv('CLICKHOUSE_PORT', 8123))  
 
 CLICKHOUSE_USERNAME = os.getenv('CLICKHOUSE_USERNAME')
 CLICKHOUSE_PASSWORD = os.getenv('CLICKHOUSE_PASSWORD')
@@ -25,7 +24,7 @@ def connect_to_clickhouse():
         # Conectar ao ClickHouse com o cliente da biblioteca clickhouse-connect
         client = clickhouse_connect.get_client(
             host=CLICKHOUSE_HOST,
-            port=CLICKHOUSE_PORT,  # Passar a porta separadamente
+            port=CLICKHOUSE_PORT,  
             username=CLICKHOUSE_USERNAME,
             password=CLICKHOUSE_PASSWORD,
             database=CLICKHOUSE_DATABASE
@@ -39,7 +38,7 @@ def connect_to_clickhouse():
 # Função para mapear tipos de dados do Pandas para ClickHouse
 def map_pandas_to_clickhouse_type(dtype):
     if pd.api.types.is_integer_dtype(dtype):
-        return 'UInt32'  # Ajuste de acordo com as suas necessidades (UInt32, Int64, etc.)
+        return 'UInt32'  
     elif pd.api.types.is_float_dtype(dtype):
         return 'Float64'
     elif pd.api.types.is_object_dtype(dtype):
